@@ -1,0 +1,2137 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Movie API",
+    "version": "1.0.0",
+    "description": "OpenAPI for Movie API",
+    "termsOfService": "https://www.example.com/terms",
+    "contact": {
+      "name": "Your Name",
+      "email": "your.email@example.com",
+      "url": "https://www.example.com"
+    },
+    "license": {
+      "name": "APACHE 2.0",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://{environment}.example.com/api/v1",
+      "description": "Movie API Server",
+      "variables": {
+        "environment": {
+          "description": "Server Environment",
+          "default": "dev",
+          "enum": ["dev", "qa", "prod"]
+        }
+      }
+    }
+  ],
+  "externalDocs": {
+    "description": "Documentation on YouTube",
+    "url": "https://www.youtube.com/c/ExampleChannel"
+  },
+  "paths": {
+    "/movies": {
+      "get": {
+        "summary": "Get all movies",
+        "description": "Get a list of all movies",
+        "responses": {
+          "200": {
+            "description": "Success get all movies",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArrayMovie"
+                },
+                "examples": {
+                  "success": {
+                    "description": "Example success get all movies",
+                    "value": [
+                      {
+                        "movie_id": "1",
+                        "title": "Avatar",
+                        "synopsis": "A paraplegic marine dispatched to the moon Pandora on a unique mission becomes torn between following his orders and protecting the world he feels is his home.",
+                        "release_date": "18-12-2009",
+                        "genre": ["Action", "Drama"],
+                        "is_recommended": false,
+                        "poster": "/qhb1qOilapbapxWQn9jtRCMwXJF.jpg",
+                        "duration": 147,
+                        "casts": "Tim Robbins, Morgan Freeman",
+                        "directors": "James Cameron"
+                      },
+                      {
+                        "movie_id": "2",
+                        "title": "Wonka",
+                        "synopsis": "Willy Wonka – chock-full of ideas and determined to change the world one delectable bite at a time – is proof that the best things in life begin with a dream, and if you’re lucky enough to meet Willy Wonka, anything is possible.",
+                        "release_date": "2023-12-06",
+                        "genre": ["Comedy", "Drama"],
+                        "is_recommended": false,
+                        "poster": "/qhb1qOilapbapxWQn9jtRCMwXJF.jpg",
+                        "duration": 154,
+                        "casts": "Timothée Chalamet, Calah Lane, Keegan-Michael Key",
+                        "directors": "Paul King"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "server_error": {
+                    "description": "Server error example",
+                    "value": {
+                      "error": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create new movie",
+        "description": "Create a new movie",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrUpdateMovie"
+              },
+              "examples": {
+                "success": {
+                  "description": "Example success create movie",
+                  "value": {
+                    "title": "Avatar",
+                    "synopsis": "A paraplegic marine dispatched to the moon Pandora on a unique mission becomes torn between following his orders and protecting the world he feels is his home.",
+                    "release_date": "18-12-2009",
+                    "genre": ["Action", "Drama"],
+                    "poster": "/qhb1qOilapbapxWQn9jtRCMwXJF.jpg",
+                    "duration": 147,
+                    "casts": "Tim Robbins, Morgan Freeman",
+                    "directors": "James Cameron"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success create movie",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Movie"
+                },
+                "examples": {
+                  "success": {
+                    "description": "Example success create movie",
+                    "value": {
+                      "movie_id": "1",
+                      "title": "Avatar",
+                      "synopsis": "A paraplegic marine dispatched to the moon Pandora on a unique mission becomes torn between following his orders and protecting the world he feels is his home.",
+                      "release_date": "18-12-2009",
+                      "genre": ["Action", "Drama"],
+                      "is_recommended": false,
+                      "poster": "/qhb1qOilapbapxWQn9jtRCMwXJF.jpg",
+                      "duration": 147,
+                      "casts": "Tim Robbins, Morgan Freeman",
+                      "directors": "James Cameron"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "bad_request": {
+                    "description": "Bad request example",
+                    "value": {
+                      "error": "Invalid request data"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "server_error": {
+                    "description": "Server error example",
+                    "value": {
+                      "error": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/movies/{movieId}": {
+      "get": {
+        "summary": "Get movie by ID",
+        "description": "Get movie details by ID",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/MovieId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success get movie by ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Movie"
+                },
+                "examples": {
+                  "success": {
+                    "description": "Example success get movie by ID",
+                    "value": {
+                      "movie_id": "1",
+                      "title": "Avatar",
+                      "synopsis": "A paraplegic marine dispatched to the moon Pandora on a unique mission becomes torn between following his orders and protecting the world he feels is his home.",
+                      "release_date": "18-12-2009",
+                      "genre": ["Action", "Drama"],
+                      "is_recommended": false,
+                      "poster": "/qhb1qOilapbapxWQn9jtRCMwXJF.jpg",
+                      "duration": 147,
+                      "casts": "Tim Robbins, Morgan Freeman",
+                      "directors": "James Cameron"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Movie not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "not_found": {
+                    "description": "Movie not found example",
+                    "value": {
+                      "error": "Movie not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "server_error": {
+                    "description": "Server error example",
+                    "value": {
+                      "error": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update existing movie",
+        "description": "Update existing movie in the database",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/MovieId"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrUpdateMovie"
+              },
+              "examples": {
+                "success": {
+                  "description": "Example success create movie",
+                  "value": {
+                    "title": "Avatar",
+                    "synopsis": "A paraplegic marine dispatched to the moon Pandora on a unique mission becomes torn between following his orders and protecting the world he feels is his home.",
+                    "release_date": "18-12-2009",
+                    "genre": ["Action", "Drama"],
+                    "poster": "/qhb1qOilapbapxWQn9jtRCMwXJF.jpg",
+                    "duration": 147,
+                    "casts": "Tim Robbins, Morgan Freeman",
+                    "directors": "James Cameron"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success update movie",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Movie"
+                },
+                "examples": {
+                  "success": {
+                    "description": "Example success update movie",
+                    "value": {
+                      "movie_id": "2",
+                      "title": "Wonka",
+                      "synopsis": "Willy Wonka – chock-full of ideas and determined to change the world one delectable bite at a time – is proof that the best things in life begin with a dream, and if you’re lucky enough to meet Willy Wonka, anything is possible.",
+                      "release_date": "2023-12-06",
+                      "genre": ["Comedy", "Drama"],
+                      "is_recommended": false,
+                      "poster": "/qhb1qOilapbapxWQn9jtRCMwXJF.jpg",
+                      "duration": 154,
+                      "casts": "Timothée Chalamet, Calah Lane, Keegan-Michael Key",
+                      "directors": "Paul King"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Movie not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "not_found": {
+                    "description": "Movie not found example",
+                    "value": {
+                      "error": "Movie not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "server_error": {
+                    "description": "Server error example",
+                    "value": {
+                      "error": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete existing movie",
+        "description": "Delete existing movie from the database",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/MovieId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success delete movie",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    }
+                  }
+                },
+                "examples": {
+                  "success": {
+                    "description": "Example success delete movie",
+                    "value": {
+                      "success": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Failed delete, movie not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "not_found": {
+                    "description": "Failed delete, movie not found example",
+                    "value": {
+                      "error": "Movie not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "server_error": {
+                    "description": "Server error example",
+                    "value": {
+                      "error": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "summary": "Get all users",
+        "description": "Get a list of all users",
+        "responses": {
+          "200": {
+            "description": "Success get all users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArrayUser"
+                },
+                "examples": {
+                  "success": {
+                    "description": "Example success get all users",
+                    "value": [
+                      {
+                        "user_id": 1,
+                        "username": "user1",
+                        "email": "user1@example.com"
+                      },
+                      {
+                        "user_id": 2,
+                        "username": "user2",
+                        "email": "user2@example.com"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "server_error": {
+                    "description": "Server error example",
+                    "value": {
+                      "error": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create new user",
+        "description": "Create a new user",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrUpdateUser"
+              },
+              "examples": {
+                "success": {
+                  "description": "Example success get all users",
+                  "value": {
+                    "username": "user2",
+                    "email": "user2@example.com",
+                    "password": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success create user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                },
+                "examples": {
+                  "success": {
+                    "description": "Example success create user",
+                    "value": {
+                      "user_id": 3,
+                      "username": "newuser",
+                      "email": "newuser@example.com"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "bad_request": {
+                    "description": "Bad request example",
+                    "value": {
+                      "error": "Invalid request data"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "server_error": {
+                    "description": "Server error example",
+                    "value": {
+                      "error": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{userId}": {
+      "get": {
+        "summary": "Get user by ID",
+        "description": "Get user details by ID",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/UserId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success get user by ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                },
+                "examples": {
+                  "success": {
+                    "description": "Example success get user by ID",
+                    "value": {
+                      "user_id": 1,
+                      "username": "user1",
+                      "email": "user1@example.com"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "not_found": {
+                    "description": "User not found example",
+                    "value": {
+                      "error": "User not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "server_error": {
+                    "description": "Server error example",
+                    "value": {
+                      "error": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update existing user",
+        "description": "Update existing user in the database",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/UserId"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrUpdateUser"
+              },
+              "examples": {
+                "success": {
+                  "description": "Example success get all users",
+                  "value": {
+                    "username": "user2",
+                    "email": "user2@example.com",
+                    "password": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success update user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                },
+                "examples": {
+                  "success": {
+                    "description": "Example success update user",
+                    "value": {
+                      "user_id": 1,
+                      "username": "updateduser",
+                      "email": "updateduser@example.com"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "not_found": {
+                    "description": "User not found example",
+                    "value": {
+                      "error": "User not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "server_error": {
+                    "description": "Server error example",
+                    "value": {
+                      "error": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete existing user",
+        "description": "Delete existing user from the database",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/UserId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success delete user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    }
+                  }
+                },
+                "examples": {
+                  "success": {
+                    "description": "Example success delete user",
+                    "value": {
+                      "success": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Failed delete, user not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "not_found": {
+                    "description": "Failed delete, user not found example",
+                    "value": {
+                      "error": "User not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "server_error": {
+                    "description": "Server error example",
+                    "value": {
+                      "error": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/schedules": {
+      "get": {
+        "summary": "Get all schedules",
+        "description": "Get a list of all movie show schedules",
+        "responses": {
+          "200": {
+            "description": "Success get all schedules",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArraySchedule"
+                },
+                "examples": {
+                  "success": {
+                    "description": "Example success get all schedules",
+                    "value": [
+                      {
+                        "schedule_id": 1,
+                        "movie_id": 3,
+                        "start_time": "08:30",
+                        "end_time": "10:30",
+                        "premiere": ["ebv.id", "hiflix", "CineOne"],
+                        "location": ["Yogyakarta", "Bandung", "Jakarta"],
+                        "start_date": "2022-02-01",
+                        "end_date": "2022-02-03",
+                        "ticket_slot": 100,
+                        "theater_number": 1
+                      },
+                      {
+                        "schedule_id": 2,
+                        "movie_id": 4,
+                        "start_time": "09:00",
+                        "end_time": "11:30",
+                        "premiere": ["ebv.id", "hiflix", "CineOne"],
+                        "location": ["Yogyakarta", "Bandung", "Jakarta"],
+                        "start_date": "2022-02-01",
+                        "end_date": "2022-02-03",
+                        "ticket_slot": 120,
+                        "theater_number": 2
+                      },
+                      {
+                        "schedule_id": 3,
+                        "movie_id": 5,
+                        "start_time": "10:00",
+                        "end_time": "12:30",
+                        "premiere": ["ebv.id", "hiflix", "CineOne"],
+                        "location": ["Yogyakarta", "Bandung", "Jakarta"],
+                        "start_date": "2022-02-01",
+                        "end_date": "2022-02-03",
+                        "ticket_slot": 80,
+                        "theater_number": 3
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "server_error": {
+                    "description": "Server error example",
+                    "value": {
+                      "error": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create new schedule",
+        "description": "Create a new movie show schedule",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrUpdateSchedule"
+              },
+              "examples": {
+                "success": {
+                  "description": "Example success create schedule",
+                  "value": {
+                    "movie_id": 6,
+                    "start_time": "11:30",
+                    "end_time": "13:30",
+                    "premiere": ["ebv.id"],
+                    "location": ["Jakarta"],
+                    "start_date": "2022-02-04",
+                    "end_date": "2022-02-06",
+                    "ticket_slot": 90,
+                    "theater_number": 4
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success create schedule",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Schedule"
+                },
+                "examples": {
+                  "success": {
+                    "description": "Example success create schedule",
+                    "value": {
+                      "schedule_id": 4,
+                      "start_time": "11:30",
+                      "end_time": "13:30",
+                      "premiere": ["ebv.id"],
+                      "location": ["Jakarta"],
+                      "start_date": "2022-02-04",
+                      "end_date": "2022-02-06",
+                      "ticket_slot": 90,
+                      "theater_number": 4
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "bad_request": {
+                    "description": "Bad request example",
+                    "value": {
+                      "error": "Invalid request data"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "server_error": {
+                    "description": "Server error example",
+                    "value": {
+                      "error": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/schedules/{scheduleId}": {
+      "get": {
+        "summary": "Get schedule by ID",
+        "description": "Get movie show schedule details by ID",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ScheduleId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success get schedule by ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Schedule"
+                },
+                "examples": {
+                  "success": {
+                    "description": "Example success get schedule by ID",
+                    "value": {
+                      "schedule_id": 1,
+                      "movie_id": 3,
+                      "start_time": "08:30",
+                      "end_time": "10:30",
+                      "premiere": ["ebv.id"],
+                      "location": ["Yogyakarta"],
+                      "start_date": "2022-02-01",
+                      "end_date": "2022-02-03",
+                      "ticket_slot": 100,
+                      "theater_number": 1
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Schedule not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "not_found": {
+                    "description": "Schedule not found example",
+                    "value": {
+                      "error": "Schedule not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "server_error": {
+                    "description": "Server error example",
+                    "value": {
+                      "error": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update existing schedule",
+        "description": "Update existing movie show schedule in the database",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ScheduleId"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrUpdateSchedule"
+              },
+              "examples": {
+                "success": {
+                  "description": "Example success create schedule",
+                  "value": {
+                    "movie_id": 6,
+                    "start_time": "11:30",
+                    "end_time": "13:30",
+                    "premiere": ["ebv.id"],
+                    "location": ["Jakarta"],
+                    "start_date": "2022-02-04",
+                    "end_date": "2022-02-06",
+                    "ticket_slot": 90,
+                    "theater_number": 4
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success update schedule",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Schedule"
+                },
+                "examples": {
+                  "success": {
+                    "description": "Example success update schedule",
+                    "value": {
+                      "schedule_id": 1,
+                      "movie_id": 6,
+                      "start_time": "11:30",
+                      "end_time": "13:30",
+                      "premiere": ["ebv.id"],
+                      "location": ["Jakarta"],
+                      "start_date": "2022-02-04",
+                      "end_date": "2022-02-06",
+                      "ticket_slot": 90,
+                      "theater_number": 4
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Schedule not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "not_found": {
+                    "description": "Schedule not found example",
+                    "value": {
+                      "error": "Schedule not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "server_error": {
+                    "description": "Server error example",
+                    "value": {
+                      "error": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete existing schedule",
+        "description": "Delete existing movie show schedule from the database",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ScheduleId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success delete schedule",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    }
+                  }
+                },
+                "examples": {
+                  "success": {
+                    "description": "Example success delete schedule",
+                    "value": {
+                      "success": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Failed delete, schedule not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "not_found": {
+                    "description": "Failed delete, schedule not found example",
+                    "value": {
+                      "error": "Schedule not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "server_error": {
+                    "description": "Server error example",
+                    "value": {
+                      "error": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bookings": {
+      "get": {
+        "summary": "Get all bookings",
+        "description": "Get a list of all movie bookings",
+        "responses": {
+          "200": {
+            "description": "Success get all bookings",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArrayBooking"
+                },
+                "examples": {
+                  "success": {
+                    "description": "Example success get all bookings",
+                    "value": [
+                      {
+                        "booking_id": 1,
+                        "seat_number": "A1",
+                        "customer_name": "Alice Johnson",
+                        "booking_time": "2022-02-01T09:00:00",
+                        "movie_id": 4,
+                        "price": 12.5,
+                        "user_id": 1,
+                        "schedule_id": 1
+                      },
+                      {
+                        "booking_id": 2,
+                        "seat_number": "B2",
+                        "customer_name": "Bob Williams",
+                        "booking_time": "2022-02-02T10:30:00",
+                        "movie_id": 5,
+                        "price": 10.0,
+                        "user_id": 2,
+                        "schedule_id": 2
+                      },
+                      {
+                        "booking_id": 3,
+                        "seat_number": "C3",
+                        "customer_name": "Charlie Davis",
+                        "booking_time": "2022-02-03T12:00:00",
+                        "movie_id": 3,
+                        "price": 15.0,
+                        "user_id": 3,
+                        "schedule_id": 3
+                      },
+                      {
+                        "booking_id": 4,
+                        "seat_number": "B3",
+                        "customer_name": "New Customer",
+                        "booking_time": "2023-01-02T13:30:00",
+                        "movie_id": 6,
+                        "price": 8.5,
+                        "user_id": 2,
+                        "schedule_id": 4
+                      }
+                    ]
+                  }
+                }
+              },
+
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "server_error": {
+                    "description": "Server error example",
+                    "value": {
+                      "error": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create new booking",
+        "description": "Create a new movie booking",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrUpdateBooking"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success create booking",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Booking"
+                },
+                "examples": {
+                  "success": {
+                    "description": "Example success create booking",
+                    "value": {
+                      "booking_id": 5,
+                      "seat_number": "C4",
+                      "customer_name": "John Doe",
+                      "booking_time": "2023-02-01T15:30:00",
+                      "movie_id": 7,
+                      "price": 18.0,
+                      "user_id": 4,
+                      "schedule_id": 5
+                    }
+                  }
+                }
+              },
+
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "bad_request": {
+                    "description": "Bad request example",
+                    "value": {
+                      "error": "Invalid request data"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "server_error": {
+                    "description": "Server error example",
+                    "value": {
+                      "error": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bookings/{bookingId}": {
+      "get": {
+        "summary": "Get booking by ID",
+        "description": "Get movie booking details by ID",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/BookingId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success get booking by ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Booking"
+                },
+                "examples": {
+                  "success": {
+                    "description": "Example success get booking by ID",
+                    "value": {
+                      "booking_id": 1,
+                      "seat_number": "A1",
+                      "customer_name": "Alice Johnson",
+                      "booking_time": "2022-02-01T09:00:00",
+                      "movie_id": 4,
+                      "price": 12.5,
+                      "user_id": 1,
+                      "schedule_id": 1
+                    }
+                  }
+                }
+              }
+
+            }
+          },
+          "404": {
+            "description": "Booking not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "not_found": {
+                    "description": "Booking not found example",
+                    "value": {
+                      "error": "Booking not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "server_error": {
+                    "description": "Server error example",
+                    "value": {
+                      "error": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update existing booking",
+        "description": "Update existing movie booking details",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/BookingId"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrUpdateBooking"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success update booking",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Booking"
+                },
+                "examples": {
+                  "success": {
+                    "description": "Example success update booking",
+                    "value": {
+                      "booking_id": 1,
+                      "seat_number": "A1",
+                      "customer_name": "Alice Johnson",
+                      "booking_time": "2022-02-01T09:00:00",
+                      "movie_id": 4,
+                      "price": 12.5,
+                      "user_id": 1,
+                      "schedule_id": 1
+                    }
+                  }
+                }
+              }
+
+            }
+          },
+          "404": {
+            "description": "Booking not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "not_found": {
+                    "description": "Booking not found example",
+                    "value": {
+                      "error": "Booking not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "server_error": {
+                    "description": "Server error example",
+                    "value": {
+                      "error": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete existing booking",
+        "description": "Delete movie booking details",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/BookingId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success delete booking",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    }
+                  }
+                },
+                "examples": {
+                  "success": {
+                    "description": "Example success delete booking",
+                    "value": {
+                      "success": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Booking not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "not_found": {
+                    "description": "Booking not found example",
+                    "value": {
+                      "error": "Booking not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "server_error": {
+                    "description": "Server error example",
+                    "value": {
+                      "error": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "MovieAuth": {
+        "description": "Authentication for Movie API",
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-Key"
+      }
+    },
+    "parameters": {
+      "MovieId": {
+        "name": "movieId",
+        "in": "path",
+        "required": true,
+        "description": "Movie ID for updated or deleted",
+        "schema": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        }
+      },
+      "UserId": {
+        "name": "userId",
+        "in": "path",
+        "required": true,
+        "description": "User ID for updated or deleted",
+        "schema": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "ScheduleId": {
+        "name": "scheduleId",
+        "in": "path",
+        "required": true,
+        "description": "Schedule ID for updated or deleted",
+        "schema": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "BookingId": {
+        "name": "bookingId",
+        "in": "path",
+        "required": true,
+        "description": "Booking ID for updated or deleted",
+        "schema": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "schemas": {
+      "Movie": {
+        "type": "object",
+        "properties": {
+          "movie_id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "synopsis": {
+            "type": "string"
+          },
+          "release_date": {
+            "type": "string",
+            "format": "date"
+          },
+          "genre": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "is_recommended": {
+            "type": "boolean",
+            "nullable": true,
+            "default": false
+          },
+          "poster": {
+            "type": "string"
+          },
+
+          "duration": {
+            "type": "integer",
+            "format": "date"
+          },
+          "casts": {
+            "type": "string"
+          },
+          "directors": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateOrUpdateMovie": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "release_date": {
+            "type": "string",
+            "format": "date"
+          },
+          "genre": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "synopsis": {
+            "type": "string"
+          },
+
+          "poster": {
+            "type": "string"
+          },
+
+          "duration": {
+            "type": "integer",
+            "format": "date"
+          },
+          "casts": {
+            "type": "string"
+          },
+          "directors": {
+            "type": "string"
+          }
+        }
+      },
+      "ArrayMovie": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Movie"
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "user_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "username": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateOrUpdateUser": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          }
+        }
+      },
+      "ArrayUser": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/User"
+        }
+      },
+      "Schedule": {
+        "type": "object",
+        "properties": {
+          "schedule_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "movie_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "start_time": {
+            "type": "string",
+            "format": "time"
+          },
+          "end_time": {
+            "type": "string",
+            "format": "time"
+          },
+          "premiere": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "location": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "start_date": {
+            "type": "string",
+            "format": "date"
+          },
+          "end_date": {
+            "type": "string",
+            "format": "date"
+          },
+          "ticket_slot": {
+            "type": "integer"
+          },
+          "theater_number": {
+            "type": "integer"
+          }
+        }
+      },
+      "CreateOrUpdateSchedule": {
+        "type": "object",
+        "properties": {
+          "movie_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "start_time": {
+            "type": "string",
+            "format": "time"
+          },
+          "end_time": {
+            "type": "string",
+            "format": "time"
+          },
+          "premiere": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "location": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "start_date": {
+            "type": "string",
+            "format": "date"
+          },
+          "end_date": {
+            "type": "string",
+            "format": "date"
+          },
+          "ticket_slot": {
+            "type": "integer"
+          },
+          "theater_number": {
+            "type": "integer"
+          }
+        }
+      },
+      "ArraySchedule": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Schedule"
+        }
+      },
+      "Booking": {
+        "type": "object",
+        "properties": {
+          "booking_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "seat_number": {
+            "type": "string"
+          },
+          "customer_name": {
+            "type": "string"
+          },
+          "booking_time": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "movie_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "schedule_id": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "CreateOrUpdateBooking": {
+        "type": "object",
+        "properties": {
+          "seat_number": {
+            "type": "string"
+          },
+          "customer_name": {
+            "type": "string"
+          },
+          "booking_time": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "movie_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "schedule_id": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "ArrayBooking": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Booking"
+        }
+      }
+    }
+  }
+}
