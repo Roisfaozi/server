@@ -1,4 +1,4 @@
-CREATE TABLE public.movie_genre (
+CREATE TABLE movie_genre (
 	movie_genre_id serial PRIMARY KEY NOT NULL,
 	movie_id int NOT NULL,
 	genre_id int NOT NULL,

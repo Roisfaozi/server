@@ -6,8 +6,6 @@ CREATE TABLE movie (
     duration INT NULL,
     rating DECIMAL(3, 2) NULL,
     poster_url VARCHAR(255) NULL,
-    casts TEXT NULL,
-    director VARCHAR(255) NULL,
     created_at timestamp without time zone NULL DEFAULT now(),
     updated_at timestamp without time zone NULL
 );
