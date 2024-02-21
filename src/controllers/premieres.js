@@ -2,7 +2,8 @@ const premieresModel = require('../models/premieres');
 
 const PremiereController = {
   addPremiere: async (req, res) => {
-    const { movie_id, location_id, date, time, total_seat } = req.body;
+    const { movie_id, location_id, date, time, total_seat, premiere_name } =
+      req.body;
 
     try {
       const newPremiere = await premieresModel.addPremiere(
@@ -10,7 +11,8 @@ const PremiereController = {
         location_id,
         date,
         time,
-        total_seat
+        total_seat,
+        premiere_name
       );
       res.status(201).json(newPremiere);
     } catch (error) {
@@ -40,7 +42,8 @@ const PremiereController = {
 
   updatePremiere: async (req, res) => {
     const premiereId = parseInt(req.params.id);
-    const { movie_id, location_id, date, time, total_seat } = req.body;
+    const { movie_id, location_id, date, time, total_seat, premiere_name } =
+      req.body;
 
     try {
       const updatedPremiere = await premieresModel.updatePremiere(
@@ -49,7 +52,8 @@ const PremiereController = {
         location_id,
         date,
         time,
-        total_seat
+        total_seat,
+        premiere_name
       );
       res.status(200).json(updatedPremiere);
     } catch (error) {

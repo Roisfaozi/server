@@ -1,7 +1,14 @@
 const db = require('../config/dbConfig');
 
 const models = {
-  addPremiere: async (movie_id, location_id, date, time, total_seat) => {
+  addPremiere: async (
+    movie_id,
+    location_id,
+    date,
+    time,
+    total_seat,
+    premiere_name
+  ) => {
     try {
       const existingMovie = await db.query(
         'SELECT * FROM movie WHERE movie_id = $1',
@@ -20,8 +27,8 @@ const models = {
       }
 
       const result = await db.query(
-        'INSERT INTO premieres (movie_id, location_id, date, time, total_seat) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-        [movie_id, location_id, date, time, total_seat]
+        'INSERT INTO premieres (movie_id, location_id, date, time, total_seat) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+        [movie_id, location_id, date, time, total_seat, premiere_name]
       );
 
       return result.rows[0];
@@ -54,12 +61,12 @@ const models = {
   },
 
   updatePremiere: async (
-    premiereId,
     movie_id,
     location_id,
     date,
     time,
-    total_seat
+    total_seat,
+    premiere_name
   ) => {
     try {
       const existingMovie = await db.query(
@@ -79,8 +86,16 @@ const models = {
       }
 
       const result = await db.query(
-        'UPDATE premieres SET movie_id = $2, location_id = $3, date = $4, time = $5, total_seat = $6 WHERE id = $1 RETURNING *',
-        [premiereId, movie_id, location_id, date, time, total_seat]
+        'UPDATE premieres SET movie_id = $2, location_id = $3, date = $4, time = $5, total_seat = $6, premiere_name = $7 WHERE id = $1 RETURNING *',
+        [
+          premiereId,
+          movie_id,
+          location_id,
+          date,
+          time,
+          total_seat,
+          premiere_name,
+        ]
       );
 
       if (result.rows.length === 0) {
