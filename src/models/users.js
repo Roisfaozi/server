@@ -1,11 +1,11 @@
 const db = require('../config/dbConfig');
 
 const models = {
-  addUser({ username, password, email }) {
+  addUser(username, password, email, role) {
     return new Promise((resolve, reject) => {
       db.query(
-        'INSERT INTO users(username, password, email) VALUES($1, $2, $3) RETURNING *',
-        [username, password, email]
+        'INSERT INTO users( username, password, email, role) VALUES($1, $2, $3, $4) RETURNING *',
+        [username, password, email, role]
       )
         .then((res) => {
           resolve(res.rows[0]);
@@ -18,9 +18,22 @@ const models = {
 
   getAllUsers() {
     return new Promise((resolve, reject) => {
-      db.query('SELECT * FROM users')
+      db.query('SELECT * FROM users ORDER BY created_at DESC')
         .then((res) => {
           resolve(res.rows);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  },
+
+  getUserByUsename(username) {
+    return new Promise((resolve, reject) => {
+      console.log(username);
+      db.query('SELECT * FROM users WHERE username  = $1', [username])
+        .then((res) => {
+          resolve(res.rows[0]);
         })
         .catch((err) => {
           reject(err);

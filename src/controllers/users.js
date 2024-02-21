@@ -1,4 +1,6 @@
+const { hash } = require('bcrypt');
 const userModel = require('../models/users');
+const hashing = require('../utils/hash');
 
 const controller = {
   async getAllUsers(req, res) {
@@ -10,6 +12,20 @@ const controller = {
     }
   },
 
+  async getUserByUsename(req, res) {
+    try {
+      const { username } = req.params;
+      const user = await userModel.getUserByUsename(username);
+
+      if (user) {
+        res.json(user);
+      } else {
+        res.status(404).json({ error: 'User not found' });
+      }
+    } catch (err) {
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  },
   async getUserById(req, res) {
     try {
       const { userId } = req.params;
@@ -28,9 +44,15 @@ const controller = {
   async addUser(req, res) {
     try {
       const { username, password, email } = req.body;
-      const newUser = await userModel.addUser({ username, password, email });
+      const hashedPw = await hashing(password);
+      const newUser = await userModel.addUser({
+        username,
+        hashedPw,
+        email,
+      });
       res.json(newUser);
     } catch (err) {
+      console.log(err);
       res.status(500).json({ error: 'Internal Server Error' });
     }
   },
