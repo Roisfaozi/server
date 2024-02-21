@@ -1,11 +1,15 @@
-const movieModel = require('../models/movies');
+const movieModel = require("../models/movies");
 
 const controller = {
   async getAllMovies(req, res) {
-    const { page = 1, pageSize = 10 } = req.query;
-    console.log(page);
     try {
-      const movies = await movieModel.getAllMovies(page, pageSize);
+      const title = req.query.title || "";
+      const page = parseInt(req.query.page) || 1;
+      const limit = 10;
+
+      const offset = (page - 1) * limit;
+
+      const movies = await movieModel.getAllMovies(title, limit, offset);
       res.json(movies);
     } catch (error) {
       res
@@ -34,7 +38,7 @@ const controller = {
       poster_url,
       casts,
       director,
-      genre_id,
+      genre,
     } = req.body;
     try {
       const newMovie = await movieModel.addMovie({
@@ -46,10 +50,11 @@ const controller = {
         poster_url,
         casts,
         director,
-        genre_id,
+        genre,
       });
       res.status(201).json(newMovie);
     } catch (error) {
+      console.log("ctrl", error);
       res.status(400).json({ error: error.message });
     }
   },
@@ -65,7 +70,7 @@ const controller = {
       poster_url,
       casts,
       director,
-      genre_id,
+      genre,
     } = req.body;
     try {
       const updatedMovie = await movieModel.updateMovie(movieId, {
@@ -77,7 +82,7 @@ const controller = {
         poster_url,
         casts,
         director,
-        genre_id,
+        genre,
       });
       res.json(updatedMovie);
     } catch (error) {
@@ -89,7 +94,7 @@ const controller = {
     const { movieId } = req.params;
     try {
       const deletedMovie = await movieModel.deleteMovie(movieId);
-      res.json({ success: true });
+      res.json({ success: true, message: "movies already deleted" });
     } catch (error) {
       res.status(404).json({ error: error.message });
     }
@@ -102,7 +107,7 @@ const controller = {
       if (!title) {
         return res
           .status(400)
-          .json({ success: false, error: 'Title parameter is required' });
+          .json({ success: false, error: "Title parameter is required" });
       }
 
       const movies = await movieModel.searchMovieByTitle(title);
@@ -121,7 +126,7 @@ const controller = {
       if (!sortBy) {
         return res
           .status(400)
-          .json({ success: false, error: 'SortBy parameter is required' });
+          .json({ success: false, error: "SortBy parameter is required" });
       }
 
       const movies = await movieModel.sortMovies(sortBy);
