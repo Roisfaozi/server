@@ -3,18 +3,18 @@ const { addMovie } = require("../src/models/movies");
 module.exports = async () => {
   try {
     const dumy = [
-      {
-        title: "Fantastic Beasts and Where to Find Them",
-        poster_url: "https://image.com/image1.jpeg",
-        synopsis:
-          "The adventures of writer Newt Scamander in New York's secret community of witches and wizards seventy years before Harry Potter reads his book in school",
-        release_date: "2016-11-16",
-        duration: 156,
-        rating: 7.8,
-        genre: [1, 2],
-        director: [1],
-        casts: [2, 3, 4, 5, 6, 7, 8, 9, 10],
-      },
+      // {
+      //   title: "Fantastic Beasts and Where to Find Them",
+      //   poster_url: "https://image.com/image1.jpeg",
+      //   synopsis:
+      //     "The adventures of writer Newt Scamander in New York's secret community of witches and wizards seventy years before Harry Potter reads his book in school",
+      //   release_date: "2016-11-16",
+      //   duration: 156,
+      //   rating: 7.8,
+      //   genre: [1, 2],
+      //   director: [1],
+      //   casts: [2, 3, 4, 5, 6, 7, 8, 9, 10],
+      // },
       {
         title: "Uncharted",
         synopsis:
@@ -167,6 +167,11 @@ module.exports = async () => {
       //   poster_url: 'https://image.com/image10.jpeg',
       //   release_date: '2003-12-17',
       //   genre: [9, 10],
+      //   director: [13],
+      //   casts: [
+      //     124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137,
+      //     138, 139, 140, 141, 142, 143, 144,
+      //   ],
       // },
       // {
       //   title: 'The Lion King',

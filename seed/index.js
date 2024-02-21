@@ -2,7 +2,7 @@ const db = require('../src/config/dbConfig');
 const genre = require('./genres');
 const directors = require('./directors');
 const casts = require('./casts');
-const movie = require('./movie');
+const movie = require('./movies');
 
 db.connect(async (err, client, done) => {
   if (err) {
@@ -11,9 +11,9 @@ db.connect(async (err, client, done) => {
   }
 
   try {
-    await genre();
-    await directors();
-    await casts();
+    // await genre();
+    // await directors();
+    // await casts();
     await movie();
 
     console.log(`seed table success`);
