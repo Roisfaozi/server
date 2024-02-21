@@ -1,128 +1,140 @@
 const db = require('../config/dbConfig');
 
 const models = {
-  // gak muncul responsnya
-  addBooking: (bookingData) => {
-    return new Promise((resolve, reject) => {
-      const {
-        seat_number,
-        customer_name,
-        booking_time,
-        movie_id,
-        price,
-        user_id,
-        schedule_id,
-      } = bookingData;
+  addBooking: async (user_id, schedule_id, seat_id) => {
+    try {
+      const result = await db.query(
+        'INSERT INTO bookings (user_id, schedule_id, seat_id) VALUES ($1, $2, $3) RETURNING *',
+        [user_id, schedule_id, seat_id]
+      );
 
-      db.query(
-        `INSERT INTO booking 
-      (seat_number, customer_name, booking_time, movie_id, price, user_id, schedule_id) 
-      VALUES ($1, $2, $3, $4, $5, $6, $7)`,
-        [
-          seat_number,
-          customer_name,
-          booking_time,
-          movie_id,
-          price,
-          user_id,
-          schedule_id,
-        ]
-      )
-        .then((res) => {
-          console.log(res);
-          resolve({ success: true, bookingId: res.rows[0] });
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
+      return result.rows[0];
+    } catch (error) {
+      throw new Error(`Error adding booking: ${error.message}`);
+    }
   },
 
-  getAllBookings() {
-    return new Promise((resolve, reject) => {
-      db.query('SELECT * FROM booking')
-        .then((res) => {
-          resolve(res.rows);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
+  getBookings: async () => {
+    try {
+      const result = await db.query('SELECT * FROM bookings');
+      return result.rows;
+    } catch (error) {
+      throw new Error(`Error getting bookings: ${error.message}`);
+    }
   },
 
-  getBookingById(bookingId) {
-    return new Promise((resolve, reject) => {
-      db.query('SELECT * FROM booking WHERE booking_id = $1', [bookingId])
-        .then((res) => {
-          resolve(res.rows[0]);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
+  getBookingById: async (booking_id) => {
+    try {
+      const result = await db.query(
+        'SELECT * FROM bookings WHERE booking_id = $1',
+        [booking_id]
+      );
+
+      if (result.rows.length === 0) {
+        throw new Error('Booking not found');
+      }
+
+      return result.rows[0];
+    } catch (error) {
+      throw new Error(`Error getting booking: ${error.message}`);
+    }
   },
 
-  // tidak mengembalikan returbn
-  updateBooking(bookingId, bookingData) {
-    return new Promise((resolve, reject) => {
-      const {
-        seat_number,
-        customer_name,
-        booking_time,
-        movie_id,
-        price,
-        user_id,
-        schedule_id,
-      } = bookingData;
+  getBookingDetailsById: async (booking_id) => {
+    try {
+      const result = await db.query(
+        `SELECT
+          bookings.booking_id,
+          users.username,
+          users.email,
+          schedules.start_time,
+          schedules.end_time,
+          premieres.premiere_name,
+          premieres.time as premiere_time,
+          movie.title as movie_title,
+          locations.city,
+          locations.address,
+          seat.seat_id,
+          seat.row,
+          seat.col,
+          seat.seat_name,
+          seat.status
+        FROM bookings
+        INNER JOIN users ON bookings.user_id = users.user_id
+        INNER JOIN schedules ON bookings.schedule_id = schedules.id
+        INNER JOIN premieres ON schedules.premiere_id = premieres.id
+        INNER JOIN movie ON premieres.movie_id = movie.movie_id
+        INNER JOIN locations ON premieres.location_id = locations.id
+        INNER JOIN seat ON bookings.seat_id = seat.seat_id
+        WHERE bookings.booking_id = $1`,
+        [booking_id]
+      );
 
-      db.query(
-        `UPDATE booking 
-      SET seat_number = $1, 
-          customer_name = $2, 
-          booking_time = $3, 
-          movie_id = $4, 
-          price = $5, 
-          user_id = $6, 
-          schedule_id = $7 
-      WHERE booking_id = $8`,
-        [
-          seat_number,
-          customer_name,
-          booking_time,
-          movie_id,
-          price,
-          user_id,
-          schedule_id,
-          bookingId,
-        ]
-      )
-        .then((res) => {
-          if (res.rowCount > 0) {
-            resolve({ success: true, message: 'Booking updated successfully' });
-          } else {
-            reject({ success: false, message: 'Booking not found' });
-          }
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
+      if (result.rows.length === 0) {
+        throw new Error('Booking not found');
+      }
+      const bookingDetails = {
+        booking_id: result.rows[0].booking_id,
+        user: {
+          username: result.rows[0].username,
+          email: result.rows[0].email,
+        },
+        schedule: {
+          start_time: result.rows[0].start_time,
+          end_time: result.rows[0].end_time,
+          premiere_name: result.rows[0].premiere_name,
+          time: result.rows[0].time,
+          movie_title: result.rows[0].movie_title,
+          city: result.rows[0].city,
+          address: result.rows[0].address,
+        },
+        seat: result.rows.map((row) => ({
+          seat_id: row.seat_id,
+          row: row.row,
+          col: row.col,
+          seat_name: row.seat_name,
+          status: row.status,
+        })),
+      };
+      return bookingDetails;
+    } catch (error) {
+      console.log(error);
+      throw new Error(`Error getting booking details: ${error.message}`);
+    }
   },
 
-  deleteBooking(bookingId) {
-    return new Promise((resolve, reject) => {
-      db.query('DELETE FROM booking WHERE booking_id = $1', [bookingId])
-        .then((res) => {
-          if (res.rowCount > 0) {
-            resolve({ success: true, message: 'Booking deleted successfully' });
-          } else {
-            reject({ success: false, message: 'Booking not found' });
-          }
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
+  updateBooking: async (booking_id, user_id, schedule_id, seat_id) => {
+    try {
+      const result = await db.query(
+        'UPDATE bookings SET user_id = $2, schedule_id = $3, seat_id = $4 WHERE booking_id = $1 RETURNING *',
+        [booking_id, user_id, schedule_id, seat_id]
+      );
+
+      if (result.rows.length === 0) {
+        throw new Error('Booking not found');
+      }
+
+      return result.rows[0];
+    } catch (error) {
+      throw new Error(`Error updating booking: ${error.message}`);
+    }
+  },
+
+  deleteBookingById: async (booking_id) => {
+    try {
+      const result = await db.query(
+        'DELETE FROM bookings WHERE booking_id = $1 RETURNING *',
+        [booking_id]
+      );
+
+      if (result.rows.length === 0) {
+        throw new Error('Booking not found');
+      }
+
+      return 'Booking deleted successfully';
+    } catch (error) {
+      throw new Error(`Error deleting booking: ${error.message}`);
+    }
   },
 };
 

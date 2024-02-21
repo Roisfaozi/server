@@ -1,62 +1,97 @@
-const bookingModel = require('../models/bookings');
+const bookingsModel = require('../models/bookings');
+const isAdmin = (req) => req.user && req.user.role === 'admin';
 
 const controller = {
-  async getAllBookings(req, res) {
-    try {
-      const bookings = await bookingModel.getAllBookings();
-      res.status(200).json({ success: true, bookings });
-    } catch (error) {
-      res.status(500).json({ success: false, error: error.message });
-    }
-  },
+  addBooking: async (req, res) => {
+    const { user_id, schedule_id, seat_id } = req.body;
 
-  async getBookingById(req, res) {
     try {
-      const bookingId = req.params.id;
-      const booking = await bookingModel.getBookingById(bookingId);
-      if (booking) {
-        res.status(200).json({ success: true, booking });
-      } else {
-        res.status(404).json({ success: false, error: 'Booking not found' });
+      if (isAdmin(req)) {
+        return res
+          .status(403)
+          .json({ error: 'Forbidden. User does not have permission.' });
       }
+
+      const newBooking = await bookingsModel.addBooking(
+        user_id,
+        schedule_id,
+        seat_id
+      );
+      res.status(201).json(newBooking);
     } catch (error) {
-      res.status(500).json({ success: false, error: error.message });
+      res.status(500).json({ error: error.message });
     }
   },
 
-  async addBooking(req, res) {
+  getBookings: async (req, res) => {
     try {
-      const bookingData = req.body;
-      const result = await bookingModel.addBooking(bookingData);
-      res.status(201).json({ success: true, bookingId: result.bookingId });
+      const bookings = await bookingsModel.getBookings();
+      res.status(200).json(bookings);
     } catch (error) {
-      console.log(error);
-      res.status(500).json({ success: false, error: error.message });
+      res.status(500).json({ error: error.message });
     }
   },
 
-  async updateBooking(req, res) {
+  getBookingDetailsById: async (req, res) => {
+    const booking_id = parseInt(req.params.id);
+
     try {
-      const bookingId = req.params.id;
-      const bookingData = req.body;
+      if (isAdmin(req)) {
+        return res
+          .status(403)
+          .json({ error: 'Forbidden. User does not have permission.' });
+      }
 
-      const result = await bookingModel.updateBooking(bookingId, bookingData);
-
-      res.status(200).json({ success: true, message: result.message });
+      const bookingDetails =
+        await bookingsModel.getBookingDetailsById(booking_id);
+      res.status(200).json(bookingDetails);
     } catch (error) {
-      res.status(500).json({ success: false, error: error.message });
+      res.status(404).json({ error: error.message });
     }
   },
 
-  async deleteBooking(req, res) {
+  getBookingById: async (req, res) => {
+    const booking_id = parseInt(req.params.id);
+
     try {
-      const bookingId = req.params.id;
-
-      const result = await bookingModel.deleteBooking(bookingId);
-
-      res.status(200).json({ success: true, message: result.message });
+      const booking = await bookingsModel.getBookingById(booking_id);
+      res.status(200).json(booking);
     } catch (error) {
-      res.status(500).json({ success: false, error: error.message });
+      res.status(404).json({ error: error.message });
+    }
+  },
+
+  updateBooking: async (req, res) => {
+    const booking_id = parseInt(req.params.id);
+    const { user_id, schedule_id, seat_id } = req.body;
+
+    try {
+      const updatedBooking = await bookingsModel.updateBooking(
+        booking_id,
+        user_id,
+        schedule_id,
+        seat_id
+      );
+      res.status(200).json(updatedBooking);
+    } catch (error) {
+      res.status(404).json({ error: error.message });
+    }
+  },
+
+  deleteBookingById: async (req, res) => {
+    const booking_id = parseInt(req.params.id);
+
+    try {
+      if (isAdmin(req)) {
+        return res
+          .status(403)
+          .json({ error: 'Forbidden. User does not have permission.' });
+      }
+
+      const result = await bookingsModel.deleteBookingById(booking_id);
+      res.status(200).json({ message: result });
+    } catch (error) {
+      res.status(404).json({ error: error.message });
     }
   },
 };

@@ -1,11 +1,17 @@
 const express = require('express');
 const router = express.Router();
-const bookingController = require('../controllers/bookings');
+const bookingsController = require('../controllers/bookings');
+const { authenticateUser } = require('../middleware/auth');
 
-router.post('/', bookingController.addBooking);
-router.get('/', bookingController.getAllBookings);
-router.get('/:id', bookingController.getBookingById);
-router.put('/:id', bookingController.updateBooking);
-router.delete('/:id', bookingController.deleteBooking);
+router.post('/', authenticateUser, bookingsController.addBooking);
+router.get('/', authenticateUser, bookingsController.getBookings);
+router.get(
+  '/:id/details',
+  authenticateUser,
+  bookingsController.getBookingDetailsById
+);
+router.get('/:id', authenticateUser, bookingsController.getBookingById);
+router.put('/:id', authenticateUser, bookingsController.updateBooking);
+router.delete('/:id', authenticateUser, bookingsController.deleteBookingById);
 
 module.exports = router;
