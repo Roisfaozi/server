@@ -10,6 +10,7 @@ const castsService = require('./casts');
 const authService = require('./auth');
 const locationsService = require('./locations');
 const ticketsService = require('./tickets');
+const premieresService = require('./premieres');
 const uploadService = require('../controllers/upload');
 
 const multer = require('../middleware/multer');
@@ -26,6 +27,7 @@ routers.use('/api/v1/directors', directorsService);
 routers.use('/api/v1/casts', castsService);
 routers.use('/api/v1/auth', authService);
 routers.use('/api/v1/locations', locationsService);
+routers.use('/api/v1/premieres', premieresService);
 routers.use('/api/v1/tickets', ticketsService);
 routers.use('/api/v1/upload', multer.upload, uploadService.upload);
 
