@@ -5,6 +5,7 @@ const casts = require('./casts');
 const movie = require('./movies');
 const location = require('./locations');
 const premiere = require('./premieres');
+const schedule = require('./schedules');
 
 db.connect(async (err, client, done) => {
   if (err) {
@@ -18,7 +19,8 @@ db.connect(async (err, client, done) => {
     // await casts();
     // await movie();
     // await location();
-    await premiere();
+    // await premiere();
+    await schedule();
 
     console.log(`seed table success`);
     process.exit(0);

@@ -2,10 +2,11 @@ var express = require('express');
 var router = express.Router();
 const schedulesController = require('../controllers/schedules');
 
-router.get('/', schedulesController.getAllSchedules);
-router.get('/:scheduleId', schedulesController.getScheduleById);
 router.post('/', schedulesController.addSchedule);
-router.put('/:scheduleId', schedulesController.updateSchedule);
-router.delete('/:scheduleId', schedulesController.deleteSchedule);
-
+router.get('/', schedulesController.getSchedules);
+router.get('/details', schedulesController.getScheduleDetails);
+router.get('/details/:id', schedulesController.getScheduleDetailsById);
+router.get('/:id', schedulesController.getScheduleById);
+router.put('/:id', schedulesController.updateSchedule);
+router.delete('/:id', schedulesController.deleteScheduleById);
 module.exports = router;
