@@ -6,7 +6,9 @@ const movie = require('./movies');
 const location = require('./locations');
 const premiere = require('./premieres');
 const seat = require('./seats');
+const booking = require('./booking');
 const schedule = require('./schedules');
+const ticket = require('./tickets');
 
 db.connect(async (err, client, done) => {
   if (err) {
@@ -22,7 +24,9 @@ db.connect(async (err, client, done) => {
     // await location();
     // await premiere();
     // await schedule();
-    await seat();
+    // await seat();
+    // await booking();
+    await ticket();
 
     console.log(`seed table success`);
     process.exit(0);
