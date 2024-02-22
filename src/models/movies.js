@@ -1,4 +1,4 @@
-const db = require("../config/dbConfig");
+const db = require('../config/dbConfig');
 
 const models = {
   getAllMovies: async (title, limit, offset) => {
@@ -30,7 +30,7 @@ const models = {
     try {
       const mainResult = await db.query(query, [`%${title}%`, limit, offset]);
       const countResult = await db.query(
-        "SELECT COUNT(*) AS total FROM movie WHERE title LIKE $1",
+        'SELECT COUNT(*) AS total FROM movie WHERE title LIKE $1',
         [`%${title}%`]
       );
 
@@ -43,7 +43,7 @@ const models = {
       };
 
       if (mainResult.rows <= 0) {
-        return "data not found";
+        return 'data not found';
       }
 
       return { data: movies, meta };
@@ -75,31 +75,29 @@ const models = {
     WHERE m.movie_id = $1
     GROUP BY m.movie_id;
   `;
-
     try {
       const result = await db.query(query, [movieId]);
+
       return result.rows[0];
     } catch (error) {
       throw new Error(`Error getting movie by ID: ${error.message}`);
     }
   },
 
-  addMovie: async (movieData) => {
-    const {
-      title,
-      synopsis,
-      release_date,
-      duration,
-      rating,
-      poster_url,
-      genre,
-      director,
-      casts,
-    } = movieData;
-
+  addMovie: async ({
+    title,
+    synopsis,
+    release_date,
+    duration,
+    rating,
+    poster_url,
+    genre,
+    director,
+    casts,
+  }) => {
     const pg = await db.connect();
     try {
-      await pg.query("BEGIN");
+      await pg.query('BEGIN');
 
       const movieResult = await pg.query(
         `INSERT INTO movie (title, synopsis, release_date, duration, rating, poster_url, created_at, updated_at)
@@ -107,7 +105,6 @@ const models = {
         RETURNING movie_id;`,
         [title, synopsis, release_date, duration, rating, poster_url]
       );
-
       const movieId = movieResult.rows[0].movie_id;
 
       if (genre && genre.length > 0) {
@@ -140,11 +137,11 @@ const models = {
         }
       }
 
-      await pg.query("COMMIT");
+      await pg.query('COMMIT');
 
-      return movieId;
+      return movieResult.rows[0];
     } catch (error) {
-      await pg.query("ROLLBACK");
+      await pg.query('ROLLBACK');
       throw new Error(`Error adding movie: ${error.message}`);
     } finally {
       if (pg) {
@@ -168,10 +165,10 @@ const models = {
 
     const pg = await db.connect();
     try {
-      await pg.query("BEGIN");
+      await pg.query('BEGIN');
 
       const existingMovie = await pg.query(
-        "SELECT * FROM movie WHERE movie_id = $1",
+        'SELECT * FROM movie WHERE movie_id = $1',
         [movieId]
       );
       if (existingMovie.rows.length === 0) {
@@ -187,7 +184,7 @@ const models = {
       );
 
       if (genre && genre.length > 0) {
-        await pg.query("DELETE FROM movie_genres WHERE movie_id = $1", [
+        await pg.query('DELETE FROM movie_genres WHERE movie_id = $1', [
           movieId,
         ]);
         for await (const v of genre) {
@@ -200,7 +197,7 @@ const models = {
       }
 
       if (director && director.length > 0) {
-        await pg.query("DELETE FROM movie_directors WHERE movie_id = $1", [
+        await pg.query('DELETE FROM movie_directors WHERE movie_id = $1', [
           movieId,
         ]);
         for await (const d of director) {
@@ -213,7 +210,7 @@ const models = {
       }
 
       if (casts && casts.length > 0) {
-        await pg.query("DELETE FROM movie_casts WHERE movie_id = $1", [
+        await pg.query('DELETE FROM movie_casts WHERE movie_id = $1', [
           movieId,
         ]);
         for await (const c of casts) {
@@ -225,11 +222,11 @@ const models = {
         }
       }
 
-      await pg.query("COMMIT");
+      await pg.query('COMMIT');
 
       return result.rows[0];
     } catch (error) {
-      await pg.query("ROLLBACK");
+      await pg.query('ROLLBACK');
       throw new Error(`Error updating movie: ${error.message}`);
     } finally {
       if (pg) {
@@ -242,30 +239,30 @@ const models = {
     const pg = await db.connect();
 
     try {
-      await pg.query("BEGIN");
+      await pg.query('BEGIN');
 
       const existingMovie = await pg.query(
-        "SELECT * FROM movie WHERE movie_id = $1",
+        'SELECT * FROM movie WHERE movie_id = $1',
         [movieId]
       );
       if (existingMovie.rows.length === 0) {
         throw new Error(`Movie with ID ${movieId} not found.`);
       }
 
-      await pg.query("DELETE FROM movie_genre WHERE movie_id = $1", [movieId]);
+      await pg.query('DELETE FROM movie_genre WHERE movie_id = $1', [movieId]);
 
-      await pg.query("DELETE FROM movie_directors WHERE movie_id = $1", [
+      await pg.query('DELETE FROM movie_directors WHERE movie_id = $1', [
         movieId,
       ]);
 
-      await pg.query("DELETE FROM movie_casts WHERE movie_id = $1", [movieId]);
+      await pg.query('DELETE FROM movie_casts WHERE movie_id = $1', [movieId]);
 
-      await pg.query("DELETE FROM movie WHERE movie_id = $1", [movieId]);
+      await pg.query('DELETE FROM movie WHERE movie_id = $1', [movieId]);
 
-      await pg.query("COMMIT");
+      await pg.query('COMMIT');
       return `Movie with ID ${movieId} deleted successfully.`;
     } catch (error) {
-      await pg.query("ROLLBACK");
+      await pg.query('ROLLBACK');
       throw new Error(`Error deleting movie: ${error.message}`);
     } finally {
       if (pg) {
@@ -276,7 +273,7 @@ const models = {
 
   searchMovieByTitle: (title) => {
     return new Promise((resolve, reject) => {
-      const query = "SELECT * FROM movie WHERE title ILIKE $1";
+      const query = 'SELECT * FROM movie WHERE title ILIKE $1';
       db.query(query, [`%${title}%`])
         .then((result) => {
           resolve(result.rows);
@@ -291,12 +288,12 @@ const models = {
     return new Promise((resolve, reject) => {
       let query;
 
-      if (sortBy === "title") {
-        query = "SELECT * FROM movie ORDER BY title";
-      } else if (sortBy === "release_year") {
-        query = "SELECT * FROM movie ORDER BY release_date";
+      if (sortBy === 'title') {
+        query = 'SELECT * FROM movie ORDER BY title';
+      } else if (sortBy === 'release_year') {
+        query = 'SELECT * FROM movie ORDER BY release_date';
       } else {
-        return reject(new Error("Invalid sort parameter"));
+        return reject(new Error('Invalid sort parameter'));
       }
 
       db.query(query)

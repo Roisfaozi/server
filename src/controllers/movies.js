@@ -1,9 +1,9 @@
-const movieModel = require("../models/movies");
+const movieModel = require('../models/movies');
 
 const controller = {
   async getAllMovies(req, res) {
     try {
-      const title = req.query.title || "";
+      const title = req.query.title || '';
       const page = parseInt(req.query.page) || 1;
       const limit = 10;
 
@@ -28,62 +28,35 @@ const controller = {
     }
   },
 
-  async addMovie(req, res) {
-    const {
-      title,
-      synopsis,
-      release_date,
-      duration,
-      rating,
-      poster_url,
-      casts,
-      director,
-      genre,
-    } = req.body;
+  addMovie: async (req, res) => {
     try {
-      const newMovie = await movieModel.addMovie({
-        title,
-        synopsis,
-        release_date,
-        duration,
-        rating,
-        poster_url,
-        casts,
-        director,
-        genre,
-      });
+      const file = req.file;
+      if (!file) {
+        return res.status(400).send('No file uploaded.');
+      }
+
+      req.body.poster_url = `http://localhost:8001/image/${file.filename}`;
+      console.log(req.body);
+      const newMovie = await movieModel.addMovie(req.body);
       res.status(201).json(newMovie);
     } catch (error) {
-      console.log("ctrl", error);
+      console.log('ctrl', error);
       res.status(400).json({ error: error.message });
     }
   },
 
   async updateMovie(req, res) {
     const { movieId } = req.params;
-    const {
-      title,
-      synopsis,
-      release_date,
-      duration,
-      rating,
-      poster_url,
-      casts,
-      director,
-      genre,
-    } = req.body;
+
     try {
-      const updatedMovie = await movieModel.updateMovie(movieId, {
-        title,
-        synopsis,
-        release_date,
-        duration,
-        rating,
-        poster_url,
-        casts,
-        director,
-        genre,
-      });
+      const file = req.file;
+      if (!file) {
+        return res.status(400).send('No file uploaded.');
+      }
+
+      req.body.poster_url = `http://localhost:8000/image/${file.filename}`;
+
+      const updatedMovie = await movieModel.updateMovie(movieId, req.body);
       res.json(updatedMovie);
     } catch (error) {
       res.status(404).json({ error: error.message });
@@ -94,7 +67,7 @@ const controller = {
     const { movieId } = req.params;
     try {
       const deletedMovie = await movieModel.deleteMovie(movieId);
-      res.json({ success: true, message: "movies already deleted" });
+      res.json({ success: true, message: 'movies already deleted' });
     } catch (error) {
       res.status(404).json({ error: error.message });
     }
@@ -107,7 +80,7 @@ const controller = {
       if (!title) {
         return res
           .status(400)
-          .json({ success: false, error: "Title parameter is required" });
+          .json({ success: false, error: 'Title parameter is required' });
       }
 
       const movies = await movieModel.searchMovieByTitle(title);
@@ -126,7 +99,7 @@ const controller = {
       if (!sortBy) {
         return res
           .status(400)
-          .json({ success: false, error: "SortBy parameter is required" });
+          .json({ success: false, error: 'SortBy parameter is required' });
       }
 
       const movies = await movieModel.sortMovies(sortBy);
