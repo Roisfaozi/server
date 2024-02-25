@@ -27,7 +27,7 @@ const models = {
       }
 
       const result = await db.query(
-        'INSERT INTO premieres (movie_id, location_id, date, time, total_seat) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+        'INSERT INTO premieres (movie_id, location_id, date, time, total_seat,premiere_name) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
         [movie_id, location_id, date, time, total_seat, premiere_name]
       );
 
