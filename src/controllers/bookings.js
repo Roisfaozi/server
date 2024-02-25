@@ -36,6 +36,7 @@ const controller = {
     const booking_id = parseInt(req.params.id);
 
     try {
+      console.log(isAdmin(req));
       if (isAdmin(req)) {
         return res
           .status(403)
