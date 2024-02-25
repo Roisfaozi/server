@@ -3,10 +3,10 @@ const { addLocation } = require('../src/models/locations');
 module.exports = async () => {
   try {
     const locationsSeed = [
-      // {
-      //   city: 'Jakarta',
-      //   address: 'Central Jakarta',
-      // },
+      {
+        city: 'Jakarta',
+        address: 'Central Jakarta',
+      },
       {
         city: 'Surabaya',
         address: 'East Java',

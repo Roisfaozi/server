@@ -17,15 +17,15 @@ db.connect(async (err, client, done) => {
   }
 
   try {
-    // await genre();
-    // await directors();
-    // await casts();
-    // await movie();
-    // await location();
-    // await premiere();
-    // await schedule();
-    // await seat();
-    // await booking();
+    await genre();
+    await directors();
+    await casts();
+    await movie();
+    await location();
+    await premiere();
+    await schedule();
+    await seat();
+    await booking();
     await ticket();
 
     console.log(`seed table success`);
