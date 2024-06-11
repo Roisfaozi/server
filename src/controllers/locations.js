@@ -6,7 +6,9 @@ const controller = {
 
     try {
       const newLocation = await locationsModel.addLocation(city, address);
-      res.status(201).json(newLocation);
+      res
+        .status(201)
+        .json({ message: 'Success add new location', newLocation });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
@@ -15,7 +17,7 @@ const controller = {
   getLocations: async (req, res) => {
     try {
       const locations = await locationsModel.getLocations();
-      res.status(200).json(locations);
+      res.status(200).json({ message: 'Success get locations', locations });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
@@ -26,7 +28,7 @@ const controller = {
 
     try {
       const location = await locationsModel.getLocationById(locationId);
-      res.status(200).json(location);
+      res.status(200).json({ message: 'Success get location id', location });
     } catch (error) {
       res.status(404).json({ error: error.message });
     }
@@ -42,7 +44,9 @@ const controller = {
         city,
         address
       );
-      res.status(200).json(updatedLocation);
+      res
+        .status(200)
+        .json({ message: 'Success update location', updatedLocation });
     } catch (error) {
       res.status(404).json({ error: error.message });
     }

@@ -61,6 +61,7 @@ const models = {
   },
 
   updatePremiere: async (
+    premiereId,
     movie_id,
     location_id,
     date,

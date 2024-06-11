@@ -5,7 +5,7 @@ const controller = {
     try {
       const { cast_name } = req.body;
       const castId = await castModel.addCast(cast_name);
-      res.json({ castId });
+      res.json({ message: 'Cast created successfully', castId });
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Internal Server Error' });
@@ -19,8 +19,7 @@ const controller = {
       const offset = (page - 1) * limit;
 
       const casts = await castModel.getCasts(limit, offset);
-      console.log(casts);
-      res.json({ casts });
+      res.json({ message: 'Cast get successfully', casts });
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Internal Server Error' });

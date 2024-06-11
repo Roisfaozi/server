@@ -13,8 +13,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-app.use('/image', express.static(path.join(__dirname, 'public')));
+app.use(express.static('./public'));
+app.use('/image', express.static(path.join(__dirname, './public/images')));
 app.use(routers);
 
 db.connect()

@@ -5,7 +5,7 @@ const multer = require('../middleware/multer');
 const movieController = require('../controllers/movies');
 
 router.get('/', movieController.getAllMovies);
-router.get('/movies/search', movieController.searchMovieByTitle);
+router.get('/search', movieController.searchMovieByTitle);
 router.get('/sort', movieController.sortMovies);
 router.get('/:movieId', movieController.getMovieById);
 router.post('/', multer.upload, movieController.addMovie);

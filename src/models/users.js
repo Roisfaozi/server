@@ -18,7 +18,9 @@ const models = {
 
   getAllUsers() {
     return new Promise((resolve, reject) => {
-      db.query('SELECT * FROM users ORDER BY created_at DESC')
+      db.query(
+        'SELECT user_id, username, email, role, created_at, updated_at FROM users ORDER BY created_at DESC'
+      )
         .then((res) => {
           resolve(res.rows);
         })
@@ -30,7 +32,6 @@ const models = {
 
   getUserByUsename(username) {
     return new Promise((resolve, reject) => {
-      console.log(username);
       db.query('SELECT * FROM users WHERE username  = $1', [username])
         .then((res) => {
           resolve(res.rows[0]);
@@ -43,7 +44,10 @@ const models = {
 
   getUserById(userId) {
     return new Promise((resolve, reject) => {
-      db.query('SELECT * FROM users WHERE user_id = $1', [userId])
+      db.query(
+        'SELECT user_id, username, email, role, created_at, updated_at FROM users WHERE user_id = $1',
+        [userId]
+      )
         .then((res) => {
           resolve(res.rows[0]);
         })
@@ -53,11 +57,11 @@ const models = {
     });
   },
 
-  updateUser(userId, { username, password, email }) {
+  updateUser(userId, { username, email }) {
     return new Promise((resolve, reject) => {
       db.query(
-        'UPDATE users SET username = $1, password = $2, email = $3 WHERE user_id = $4 RETURNING *',
-        [username, password, email, userId]
+        'UPDATE users SET username = $1, email = $2 WHERE user_id = $3 RETURNING username, email, user_id',
+        [username, email, userId]
       )
         .then((res) => {
           resolve(res.rows[0]);

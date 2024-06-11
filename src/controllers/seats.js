@@ -12,7 +12,9 @@ const seatsController = {
         seat_name,
         status
       );
-      res.status(201).json(newSeat);
+      res
+        .status(201)
+        .json({ message: 'Seat added successfully', data: newSeat });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
@@ -44,6 +46,7 @@ const seatsController = {
       };
 
       const result = {
+        message: 'Success get seats',
         data: seats,
         meta,
       };
@@ -60,7 +63,9 @@ const seatsController = {
 
     try {
       const updatedSeat = await seatsModel.updateSeatStatus(seat_id, status);
-      res.status(200).json(updatedSeat);
+      res
+        .status(200)
+        .json({ message: 'Success update seat status', updatedSeat });
     } catch (error) {
       res.status(404).json({ error: error.message });
     }

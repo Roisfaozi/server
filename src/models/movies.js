@@ -1,34 +1,35 @@
 const db = require('../config/dbConfig');
 
 const models = {
-  getAllMovies: async (title, limit, offset) => {
+  getAllMovies: async (title, genre, limit, offset) => {
     const query = `
       SELECT
-          m.movie_id,
-          m.title,
-          m.synopsis,
-          TO_CHAR(m.release_date, 'DD-MM-YYYY') as release_date,
-          m.duration,
-          m.rating,
-          m.poster_url,
-          STRING_AGG(DISTINCT g.genre_name, ', ') AS genres,
-          STRING_AGG(DISTINCT c.name, ', ') AS casts,
-          STRING_AGG(DISTINCT d.name, ', ') AS directors
-      FROM movie m
-      INNER JOIN movie_casts mc ON m.movie_id = mc.movie_id
-      INNER JOIN casts c ON mc.cast_id = c.id
-      INNER JOIN movie_directors md ON m.movie_id = md.movie_id
-      INNER JOIN directors d ON md.director_id = d.id
-      INNER JOIN movie_genre mg ON m.movie_id = mg.movie_id
-      INNER JOIN genres g ON mg.genre_id = g.genre_id
-      WHERE m.title LIKE $1
-      GROUP BY m.movie_id
-      ORDER BY m.movie_id ASC
-      LIMIT $2 OFFSET $3;
+  m.movie_id,
+  m.title,
+  m.synopsis,
+  TO_CHAR(m.release_date, 'DD-MM-YYYY') as release_date,
+  m.duration,
+  m.rating,
+  m.poster_url,
+  STRING_AGG(DISTINCT g.genre_name, ', ') AS genres,
+  STRING_AGG(DISTINCT c.name, ', ') AS casts,
+  STRING_AGG(DISTINCT d.name, ', ') AS directors
+FROM movie m
+INNER JOIN movie_casts mc ON m.movie_id = mc.movie_id
+INNER JOIN casts c ON mc.cast_id = c.id
+INNER JOIN movie_directors md ON m.movie_id = md.movie_id
+INNER JOIN directors d ON md.director_id = d.id
+INNER JOIN movie_genre mg ON m.movie_id = mg.movie_id
+INNER JOIN genres g ON mg.genre_id = g.genre_id
+WHERE m.title ILIKE $1
+GROUP BY m.movie_id
+ORDER BY m.movie_id ASC
+LIMIT $2 OFFSET $3;
     `;
 
     try {
       const mainResult = await db.query(query, [`%${title}%`, limit, offset]);
+
       const countResult = await db.query(
         'SELECT COUNT(*) AS total FROM movie WHERE title LIKE $1',
         [`%${title}%`]

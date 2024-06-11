@@ -10,7 +10,11 @@ const controller = {
         start_time,
         end_time
       );
-      res.status(201).json(newSchedule);
+
+      res.status(201).json({
+        success: 'Success add schedule',
+        newSchedule,
+      });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
@@ -19,7 +23,10 @@ const controller = {
   getSchedules: async (req, res) => {
     try {
       const schedules = await scheduleModel.getSchedules();
-      res.status(200).json(schedules);
+      res.status(200).json({
+        success: 'Success get all schedule',
+        schedules,
+      });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
@@ -30,6 +37,20 @@ const controller = {
 
     try {
       const schedule = await scheduleModel.getScheduleDetailsById(schedule_id);
+      res.status(200).json({
+        success: 'Success get schedule by ID',
+        schedule,
+      });
+    } catch (error) {
+      res.status(404).json({ error: error.message });
+    }
+  },
+
+  getScheduleDetailsByMovieId: async (req, res) => {
+    const movie_id = parseInt(req.params.movieid);
+
+    try {
+      const schedule = await scheduleModel.getScheduleDetailsMovieId(movie_id);
       res.status(200).json(schedule);
     } catch (error) {
       res.status(404).json({ error: error.message });
@@ -50,7 +71,10 @@ const controller = {
   getScheduleDetails: async (req, res) => {
     try {
       const scheduleDetails = await scheduleModel.getScheduleDetails();
-      res.status(200).json(scheduleDetails);
+      res.status(200).json({
+        success: 'Success get detailed schedule',
+        scheduleDetails,
+      });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
@@ -67,7 +91,10 @@ const controller = {
         start_time,
         end_time
       );
-      res.status(200).json(updatedSchedule);
+      res.status(200).json({
+        success: 'Success update schedule',
+        updatedSchedule,
+      });
     } catch (error) {
       res.status(404).json({ error: error.message });
     }

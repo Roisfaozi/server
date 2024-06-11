@@ -6,7 +6,7 @@ const controller = {
     const { booking_id, seat_number, price } = req.body;
 
     try {
-      if (!isAdmin(req)) {
+      if (isAdmin(req) === false) {
         return res
           .status(403)
           .json({ error: 'Forbidden. User does not have permission.' });
@@ -17,7 +17,7 @@ const controller = {
         seat_number,
         price
       );
-      res.status(201).json(newTicket);
+      res.status(201).json({ message: 'Success add new ticket', newTicket });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
@@ -26,7 +26,7 @@ const controller = {
   getTickets: async (req, res) => {
     try {
       const tickets = await ticketsModel.getTickets();
-      res.status(200).json(tickets);
+      res.status(200).json({ message: 'Success get tickets', tickets });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
@@ -37,7 +37,7 @@ const controller = {
 
     try {
       const ticket = await ticketsModel.getTicketById(ticket_id);
-      res.status(200).json(ticket);
+      res.status(200).json({ message: 'Success get ticket detail', ticket });
     } catch (error) {
       res.status(404).json({ error: error.message });
     }
@@ -60,7 +60,7 @@ const controller = {
         seat_number,
         price
       );
-      res.status(200).json(updatedTicket);
+      res.status(200).json({ message: 'Success update ticket', updatedTicket });
     } catch (error) {
       res.status(404).json({ error: error.message });
     }

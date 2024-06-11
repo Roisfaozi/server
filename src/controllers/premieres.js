@@ -14,7 +14,9 @@ const PremiereController = {
         total_seat,
         premiere_name
       );
-      res.status(201).json(newPremiere);
+      res
+        .status(201)
+        .json({ message: 'Premiere added successfully', newPremiere });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
@@ -23,7 +25,7 @@ const PremiereController = {
   getPremieres: async (req, res) => {
     try {
       const premieres = await premieresModel.getPremieres();
-      res.status(200).json(premieres);
+      res.status(200).json({ message: 'Success get premieres', premieres });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
@@ -34,7 +36,7 @@ const PremiereController = {
 
     try {
       const premiere = await premieresModel.getPremiereById(premiereId);
-      res.status(200).json(premiere);
+      res.status(200).json({ message: 'Success get premiere id', premiere });
     } catch (error) {
       res.status(404).json({ error: error.message });
     }
@@ -55,7 +57,9 @@ const PremiereController = {
         total_seat,
         premiere_name
       );
-      res.status(200).json(updatedPremiere);
+      res
+        .status(200)
+        .json({ message: 'Premiere updated successfully', updatedPremiere });
     } catch (error) {
       res.status(404).json({ error: error.message });
     }

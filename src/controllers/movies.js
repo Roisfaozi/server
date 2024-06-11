@@ -4,13 +4,12 @@ const controller = {
   async getAllMovies(req, res) {
     try {
       const title = req.query.title || '';
+      const genre = req.query.genre || '';
       const page = parseInt(req.query.page) || 1;
       const limit = 10;
-
       const offset = (page - 1) * limit;
-
-      const movies = await movieModel.getAllMovies(title, limit, offset);
-      res.json(movies);
+      const movies = await movieModel.getAllMovies(title, genre, limit, offset);
+      res.json({ success: 'Success get all movie', movies });
     } catch (error) {
       res
         .status(500)
@@ -22,7 +21,7 @@ const controller = {
     const { movieId } = req.params;
     try {
       const movie = await movieModel.getMovieById(movieId);
-      res.json(movie);
+      res.json({ success: 'Success get movie', movie });
     } catch (error) {
       res.status(404).json({ error: error.message });
     }
@@ -36,6 +35,7 @@ const controller = {
       }
 
       req.body.poster_url = `http://localhost:8001/image/${file.filename}`;
+      console.log(req.body);
       const { movie_id } = await movieModel.addMovie(req.body);
       res.status(201).json({ success: 'Success add new movie', movie_id });
     } catch (error) {
@@ -93,7 +93,6 @@ const controller = {
   async sortMovies(req, res) {
     try {
       const { sortBy } = req.query;
-      console.log(sortBy);
       if (!sortBy) {
         return res
           .status(400)

@@ -5,7 +5,7 @@ const controller = {
     try {
       const { genre_name } = req.body;
       const genreId = await genreModel.addGenre(genre_name);
-      res.json({ genreId });
+      res.json({ message: 'Genre created successfully', genreId });
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Internal Server Error' });
@@ -14,7 +14,7 @@ const controller = {
   getGenres: async (req, res) => {
     try {
       const genres = await genreModel.getGenres();
-      res.json({ genres });
+      res.json({ message: 'Genre get successfully', genres });
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Internal Server Error' });

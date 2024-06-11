@@ -17,7 +17,7 @@ const controller = {
         schedule_id,
         seat_id
       );
-      res.status(201).json(newBooking);
+      res.status(201).json({ message: 'Success add new booking', newBooking });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
@@ -26,7 +26,7 @@ const controller = {
   getBookings: async (req, res) => {
     try {
       const bookings = await bookingsModel.getBookings();
-      res.status(200).json(bookings);
+      res.status(200).json({ message: 'Success get bookings', bookings });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
@@ -36,7 +36,6 @@ const controller = {
     const booking_id = parseInt(req.params.id);
 
     try {
-      console.log(isAdmin(req));
       if (isAdmin(req)) {
         return res
           .status(403)
@@ -45,7 +44,7 @@ const controller = {
 
       const bookingDetails =
         await bookingsModel.getBookingDetailsById(booking_id);
-      res.status(200).json(bookingDetails);
+      res.status(200).json({ message: 'Success get bookings', bookingDetails });
     } catch (error) {
       res.status(404).json({ error: error.message });
     }
@@ -56,7 +55,7 @@ const controller = {
 
     try {
       const booking = await bookingsModel.getBookingById(booking_id);
-      res.status(200).json(booking);
+      res.status(200).json({ message: 'Success get booking id', booking });
     } catch (error) {
       res.status(404).json({ error: error.message });
     }
@@ -73,7 +72,9 @@ const controller = {
         schedule_id,
         seat_id
       );
-      res.status(200).json(updatedBooking);
+      res
+        .status(200)
+        .json({ message: 'Success update booking', updatedBooking });
     } catch (error) {
       res.status(404).json({ error: error.message });
     }

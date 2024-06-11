@@ -105,6 +105,38 @@ const models = {
     }
   },
 
+  getScheduleDetailsMovieId: async (movieId) => {
+    try {
+      const result = await db.query(
+        `SELECT s.id AS schedule_id,
+              s.start_time,
+              s.end_time,
+              p.id AS premiere_id,
+              p.date,
+              p.time,
+              m.movie_id,
+              m.title AS movie_title,
+              l.id AS location_id,
+              l.city,
+              l.address
+        FROM schedules s
+        JOIN premieres p ON s.premiere_id = p.id
+        JOIN movie m ON p.movie_id = m.movie_id
+        JOIN locations l ON p.location_id = l.id
+        WHERE m.movie_id = $1`,
+        [movieId]
+      );
+
+      if (result.rows.length === 0) {
+        throw new Error('Schedule not found');
+      }
+
+      return result.rows[0];
+    } catch (error) {
+      throw new Error(`Error getting schedule details: ${error.message}`);
+    }
+  },
+
   updateSchedule: async (schedule_id, premiere_id, start_time, end_time) => {
     try {
       const existingPremiere = await db.query(
