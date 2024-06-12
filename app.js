@@ -26,3 +26,4 @@ db.connect()
   .catch((e) => {
     console.log(e);
   });
+module.exports = app;
