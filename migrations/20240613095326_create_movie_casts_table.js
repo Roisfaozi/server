@@ -2,9 +2,18 @@
 
 exports.up = (pgm) => {
   pgm.createTable('movie_casts', {
-    movie_id: { type: 'integer', notNull: true },
-    cast_id: { type: 'integer', notNull: true, references: 'casts' },
-    primaryKey: { type: 'primaryKey', columns: ['movie_id', 'cast_id'] },
+    movie_id: {
+      type: 'integer',
+      primaryKey: true,
+      notNull: true,
+    },
+    cast_id: {
+      type: 'integer',
+      notNull: true,
+      primaryKey: true,
+      references: '"casts"',
+      onDelete: 'cascade',
+    },
   });
 
   pgm.sql`ALTER TABLE public.movie_casts OWNER TO rois`;

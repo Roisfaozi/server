@@ -78,7 +78,6 @@ LIMIT $2 OFFSET $3;
   `;
     try {
       const result = await db.query(query, [movieId]);
-
       return result.rows[0];
     } catch (error) {
       throw new Error(`Error getting movie by ID: ${error.message}`);

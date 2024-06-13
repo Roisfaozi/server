@@ -2,17 +2,20 @@
 
 exports.up = (pgm) => {
   pgm.createTable('movie_genre', {
-    movie_genre_id: { type: 'serial', primaryKey: true },
+    movie_genre_id: {
+      type: 'serial',
+      primaryKey: true,
+    },
     movie_id: {
       type: 'integer',
       notNull: true,
-      references: 'movie',
+      references: '"movie"',
       onDelete: 'cascade',
     },
     genre_id: {
       type: 'integer',
       notNull: true,
-      references: 'genres',
+      references: '"genres"',
       onDelete: 'cascade',
     },
   });

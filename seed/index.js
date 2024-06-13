@@ -17,11 +17,11 @@ db.connect(async (err, client, done) => {
   }
 
   try {
-    await genre();
-    await directors();
-    await casts();
+    // await genre();
+    // await directors();
+    // await casts();
+    // await location();
     await movie();
-    await location();
     await premiere();
     await schedule();
     await seat();

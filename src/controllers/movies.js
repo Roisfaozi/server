@@ -35,7 +35,6 @@ const controller = {
       }
 
       req.body.poster_url = `http://localhost:8001/image/${file.filename}`;
-      console.log(req.body);
       const { movie_id } = await movieModel.addMovie(req.body);
       res.status(201).json({ success: 'Success add new movie', movie_id });
     } catch (error) {

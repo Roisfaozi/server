@@ -1,0 +1,16 @@
+generate-migrate.js
+tickmovApiSpect.json
+\*.sql
+
+node_modules
+.env
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+client-response.json
+.idea
+.git
+.gitignore
