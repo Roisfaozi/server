@@ -15,7 +15,7 @@ services:
       - golang
 
 networks:
-  gonet:
+  golang:
     name: 'golang'
     driver: bridge
     # eksternal true menandakan bahwa network sudah ada, tidak perlu buat lagi
