@@ -21,6 +21,11 @@ db.connect()
   .then(() => {
     app.listen(PORT, () => {
       console.log(`server running on post ${PORT}`);
+      console.log(`server running on post  user: ${process.env.PGUSER},
+  host: ${process.env.PGHOST},
+  database: ${process.env.PGDATABASE},
+  password: ${process.env.PGPASSWORD},
+  port: ${process.env.PGPORT},`);
     });
   })
   .catch((e) => {

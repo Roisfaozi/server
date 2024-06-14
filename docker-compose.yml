@@ -7,10 +7,12 @@ services:
       - '8001:8001'
     # .env akan ditimpa dengan envirotment dibawah
     environment:
-      - DBHOST=rois
-      - PGUSER=postgres
+      - PGHOST=postgres
+      - PGUSER=rois
       - PGPASSWORD=rois
       - PGDATABASE=tickitzz
+      - PGPORT=5432
+      - JWT_SECRET="alkgjalfijhasdkgjhafkghasdlghak"
     networks:
       - golang
 
