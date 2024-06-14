@@ -16,7 +16,8 @@ services:
 
 networks:
   gonet:
-    name: 'coba'
+    name: 'gonet'
+    driver: bridge
     # eksternal true menandakan bahwa network sudah ada, tidak perlu buat lagi
     external: true
 # docker compose up -d
