@@ -12,11 +12,11 @@ services:
       - PGPASSWORD=rois
       - PGDATABASE=tickitzz
     networks:
-      - gonet
+      - golang
 
 networks:
   gonet:
-    name: 'gonet'
+    name: 'golang'
     driver: bridge
     # eksternal true menandakan bahwa network sudah ada, tidak perlu buat lagi
     external: true
