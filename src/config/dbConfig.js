@@ -7,6 +7,10 @@ const pool = new Pool({
   database: process.env.PGDATABASE,
   password: process.env.PGPASSWORD,
   port: process.env.PGPORT,
+  max: 10,
+  min: 0,
+  idleTimeoutMillis: 8000,
+  connectionTimeoutMillis: 8000,
 });
 
 module.exports = pool;

@@ -1,9 +1,16 @@
-FROM node:18.15.0-alpine3.17
-RUN mkdir -p /opt/app
-WORKDIR /opt/app
-COPY package.json package-lock.json .
+FROM cgr.dev/chainguard/node:latest-dev AS build
+RUN mkdir -p /app
+WORKDIR /app
+COPY . /app
+USER root
+RUN rm -rf node_modules && npm install
 RUN npm install -g nodemon
-RUN npm install
-COPY . .
+
+
+FROM cgr.dev/chainguard/node:latest
+COPY --from=build /app /usr/src/app
+WORKDIR /usr/src/app
+
 EXPOSE 8001
-CMD [ "npm", "start"]
+
+CMD ["app.js"]
