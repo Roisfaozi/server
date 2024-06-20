@@ -6,7 +6,7 @@ docker-run:
 	docker run -d -it -p 8001:8001 --name tickitz-api --network=golang -e PGUSER=rois -e PGHOST=postgres -e PGPASSWORD=rois -e PGPORT=5432 -e PGDATABASE=tickitzz -e JWT_SECRET=alkgjalfijhasdkgjhafkghasdlghak roisfaozi/tickitz-api
 
 docker-rlocal:
-	docker run -d -it -p 8001:8001 --name tickitzapi -e PGUSER=rois -e PGHOST=postgreDB -e PGPASSWORD=rois -e PGPORT=5432 -e PGDATABASE=tickitz -e JWT_SECRET=alkgjalfijhasdkgjhafkghasdlghak roisfaozi/tickitz-api:1
+	docker run -d -it -p 8001:8001 --name tickitzapi --network=bridge -e PGUSER=rois -e PGHOST=postgreDB -e PGPASSWORD=rois -e PGPORT=5432 -e PGDATABASE=tickitz -e JWT_SECRET=alkgjalfijhasdkgjhafkghasdlghak roisfaozi/tickitz-api:1
 
 docker-rmc:
 	docker rm tickitzapi
