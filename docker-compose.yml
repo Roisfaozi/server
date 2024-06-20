@@ -11,8 +11,8 @@ services:
       - 'host.docker.internal:host-gateway'
     environment:
       - PGHOST=host.docker.internal
-      - PGUSER=rois
-      - PGPASSWORD=rois
+      - PGUSER=golang
+      - PGPASSWORD=golang123
       - PGDATABASE=tickitzz
       - PGPORT=5432
       - JWT_SECRET="alkgjalfijhasdkgjhafkghasdlghak"
