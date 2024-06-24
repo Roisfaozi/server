@@ -7,12 +7,10 @@ services:
       - '8001:8001'
     # .env akan ditimpa dengan envirotment dibawah
     restart: unless-stopped
-    extra_hosts:
-      - 'host.docker.internal:host-gateway'
     environment:
-      - PGHOST=host.docker.internal
-      - PGUSER=golang
-      - PGPASSWORD=golang123
+      - PGHOST=
+      - PGUSER=tickitzz_owner
+      - PGPASSWORD=cFt1h3AZKYVz
       - PGDATABASE=tickitzz
       - PGPORT=5432
       - JWT_SECRET="alkgjalfijhasdkgjhafkghasdlghak"
