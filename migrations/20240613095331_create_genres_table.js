@@ -8,7 +8,7 @@ exports.up = (pgm) => {
     updated_at: { type: 'timestamp' },
   });
 
-  pgm.sql`ALTER TABLE public.genres OWNER TO rois`;
+  pgm.sql`ALTER TABLE public.genres OWNER TO tickitzz_owner`;
 };
 
 exports.down = (pgm) => {

@@ -8,7 +8,7 @@ exports.up = (pgm) => {
     end_time: { type: 'timestamp', notNull: true },
   });
 
-  pgm.sql`ALTER TABLE public.schedules OWNER TO rois`;
+  pgm.sql`ALTER TABLE public.schedules OWNER TO tickitzz_owner`;
 };
 
 exports.down = (pgm) => {

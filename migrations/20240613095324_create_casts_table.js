@@ -6,7 +6,7 @@ exports.up = (pgm) => {
     name: { type: 'varchar(255)', notNull: true },
   });
 
-  pgm.sql`ALTER TABLE public.casts OWNER TO rois`;
+  pgm.sql`ALTER TABLE public.casts OWNER TO tickitzz_owner`;
 };
 
 exports.down = (pgm) => {

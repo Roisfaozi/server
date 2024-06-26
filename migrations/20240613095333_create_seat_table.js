@@ -13,7 +13,7 @@ exports.up = (pgm) => {
     },
   });
 
-  pgm.sql`ALTER TABLE public.seat OWNER TO rois`;
+  pgm.sql`ALTER TABLE public.seat OWNER TO tickitzz_owner`;
 };
 
 exports.down = (pgm) => {

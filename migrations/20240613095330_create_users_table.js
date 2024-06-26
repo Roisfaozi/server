@@ -11,7 +11,7 @@ exports.up = (pgm) => {
     role: { type: 'varchar(50)', default: 'user' },
   });
 
-  pgm.sql`ALTER TABLE public.users OWNER TO rois`;
+  pgm.sql`ALTER TABLE public.users OWNER TO tickitzz_owner`;
 };
 
 exports.down = (pgm) => {

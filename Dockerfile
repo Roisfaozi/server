@@ -3,7 +3,7 @@ RUN mkdir -p /app
 WORKDIR /app
 COPY . /app
 USER root
-RUN rm -rf node_modules && npm install
+RUN rm -rf node_modules && npm install --force
 RUN npm install -g nodemon
 
 

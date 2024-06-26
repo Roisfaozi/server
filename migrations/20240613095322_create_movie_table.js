@@ -13,7 +13,7 @@ exports.up = (pgm) => {
     updated_at: { type: 'timestamp' },
   });
 
-  pgm.sql`ALTER TABLE public.movie OWNER TO rois`;
+  pgm.sql`ALTER TABLE public.movie OWNER TO tickitzz_owner`;
 };
 
 exports.down = (pgm) => {

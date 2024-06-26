@@ -11,7 +11,7 @@ exports.up = (pgm) => {
     premiere_name: { type: 'varchar(50)' },
   });
 
-  pgm.sql`ALTER TABLE public.premieres OWNER TO rois`;
+  pgm.sql`ALTER TABLE public.premieres OWNER TO tickitzz_owner`;
 };
 
 exports.down = (pgm) => {

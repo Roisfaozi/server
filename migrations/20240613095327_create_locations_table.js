@@ -7,7 +7,7 @@ exports.up = (pgm) => {
     address: { type: 'varchar(255)', notNull: true },
   });
 
-  pgm.sql`ALTER TABLE public.locations OWNER TO rois`;
+  pgm.sql`ALTER TABLE public.locations OWNER TO tickitzz_owner`;
 };
 
 exports.down = (pgm) => {

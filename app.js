@@ -18,6 +18,10 @@ app.use(express.static('./public'));
 app.use('/image', express.static(path.join(__dirname, './public/images')));
 app.use(routers);
 
+console.log(`cloud_name:${process.env.CD_NAME},
+  api_key: ${process.env.CD_KEY},
+  api_secret: ${process.env.CD_SECRET},`);
+
 db.connect()
   .then(() => {
     app.listen(PORT, () => {
@@ -32,4 +36,5 @@ db.connect()
   .catch((e) => {
     console.log(e);
   });
+
 module.exports = app;

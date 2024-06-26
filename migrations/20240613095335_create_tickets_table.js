@@ -9,7 +9,7 @@ exports.up = (pgm) => {
     created_at: { type: 'timestamp', notNull: true },
   });
 
-  pgm.sql`ALTER TABLE public.tickets OWNER TO rois`;
+  pgm.sql`ALTER TABLE public.tickets OWNER TO tickitzz_owner`;
 };
 
 exports.down = (pgm) => {

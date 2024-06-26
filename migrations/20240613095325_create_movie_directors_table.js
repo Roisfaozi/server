@@ -18,7 +18,7 @@ exports.up = (pgm) => {
     },
   });
 
-  pgm.sql`ALTER TABLE public.movie_directors OWNER TO rois`;
+  pgm.sql`ALTER TABLE public.movie_directors OWNER TO tickitzz_owner`;
 };
 
 exports.down = (pgm) => {

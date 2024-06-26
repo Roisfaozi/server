@@ -99,14 +99,14 @@ module.exports = async () => {
         seat_id: 57,
       },
       {
-        user_id: 6,
+        user_id: 7,
         schedule_id: 8,
         seat_id: 60,
       },
     ];
 
     for await (const data of dumy) {
-      console.log(data.user_id);
+      console.log(data);
       await addBooking(data.user_id, data.schedule_id, data.seat_id);
     }
 

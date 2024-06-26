@@ -2,6 +2,10 @@ generate-migrate.js
 tickmovApiSpect.json
 \*.sql
 
+seed
+dbsql
+migations
+
 node_modules
 .env
 .DS_Store
@@ -14,3 +18,5 @@ client-response.json
 .idea
 .git
 .gitignore
+*.jpg
+*.jpeg

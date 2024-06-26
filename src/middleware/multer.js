@@ -1,6 +1,8 @@
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const { config } = require('dotenv');
+const CdStorage = require('../utils/cloudinary');
 // import uuid from "uuid/v4";
 
 // const storageMultiple = multer.diskStorage({
@@ -32,7 +34,7 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({
-  storage: storage,
+  storage: CdStorage,
   limits: { fileSize: 1000000 },
   fileFilter: function (req, file, cb) {
     checkFileType(file, cb);

@@ -9,7 +9,7 @@ exports.up = (pgm) => {
     created_at: { type: 'timestamp', default: pgm.func('current_timestamp') },
   });
 
-  pgm.sql`ALTER TABLE public.bookings OWNER TO rois`;
+  pgm.sql`ALTER TABLE public.bookings OWNER TO tickitzz_owner`;
 };
 
 exports.down = (pgm) => {
